@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEditor.Scripting.Python;
+using Constants;
 
 public class PlayerMovement : MonoBehaviour {
   private new Camera camera;
@@ -17,17 +19,40 @@ public class PlayerMovement : MonoBehaviour {
   public bool isJumping { get; private set; }
   public bool isRunning => Mathf.Abs(velocity.x) > 0.25f;
   public bool isSliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
+  public bool finishedMoving = false;
+  public int moveCounter = 0;
+  public bool pressedJump = false;
   
+  public PlayerGeneticAlgorithm playerGeneticAlgorithm;
+  public GeneticAlgorithm geneticAlgorithm;
 
   private void Awake() {
     rigidbody = GetComponent<Rigidbody2D>();
+    geneticAlgorithm = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
     camera = Camera.main;
   }
 
   private void Update() {
-    HorizontalMovement();
+    if (geneticAlgorithm.isRunning) {
+      if (moveCounter < geneticAlgorithm.moveCount) {
+        Move move = playerGeneticAlgorithm.moves[moveCounter];
+        if (move == Move.RIGHT) inputAxis = 1;
+        if (move == Move.DEFAULT) inputAxis = 0;
+        if (move == Move.LEFT) inputAxis = -1;
+        if (move == Move.JUMP) pressedJump = true;
+        else pressedJump = false;
+      } else {
+        inputAxis = 0;
+        if (isGrounded && Mathf.Abs(velocity.x) < 0.1 && !finishedMoving) {
+          finishedMoving = true;
+          geneticAlgorithm.finishedCount++;
+        }
+      }
+    }
 
     isGrounded = rigidbody.Raycast(Vector2.down);
+    
+    HorizontalMovement();
 
     if (isGrounded) {
       GroundedMovement();
@@ -37,10 +62,10 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   private void HorizontalMovement() {
-    inputAxis = Input.GetAxis("Horizontal");
     velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
 
     if (rigidbody.Raycast(Vector2.right * velocity.x)) {
+      playerGeneticAlgorithm.collisionCount++;
       velocity.x = 0f;
     }
 
@@ -55,14 +80,14 @@ public class PlayerMovement : MonoBehaviour {
     velocity.y = Mathf.Max(velocity.y, 0f);
     isJumping = velocity.y > 0f;
 
-    if (Input.GetButtonDown("Jump")) {
+    if (pressedJump) {
       velocity.y = jumpForce;
       isJumping = true;
     }
   }
 
   private void ApplyGravity() {
-    bool isFalling = velocity.y < 0f || !Input.GetButton("Jump");
+    bool isFalling = velocity.y < 0f || !pressedJump;
     float multiplier = isFalling ? 2f : 1f;
 
     velocity.y += gravity * multiplier * Time.deltaTime;
@@ -82,13 +107,22 @@ public class PlayerMovement : MonoBehaviour {
     // position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
 
     rigidbody.MovePosition(position);
+    if (moveCounter < geneticAlgorithm.moveCount) {
+      moveCounter++;
+    }
   }
 
   private void OnCollisionEnter2D(Collision2D collision) {
     if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp")) {
       if (transform.DotTest(collision.transform, Vector2.up)) {
+        playerGeneticAlgorithm.collisionCount++;
         velocity.y = 0f;
       }
     }
+  }
+
+  public void Reset() {
+    moveCounter = 0;
+    finishedMoving = false;
   }
 }

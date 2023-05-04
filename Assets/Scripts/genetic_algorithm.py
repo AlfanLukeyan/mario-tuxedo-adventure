@@ -1,7 +1,19 @@
-import UnityEngine
+import UnityEngine as ue
 
-playerPrefab = UnityEngine.Resources.Load("Prefabs/Mario")
+playerPrefab = ue.Resources.Load("Prefabs/Mario")
 
-instance = UnityEngine.GameObject.Instantiate(playerPrefab)
+properties = ue.GameObject.Find("Genetic Algorithm").GetComponent("GeneticAlgorithm")
 
-instance.transform.position = UnityEngine.Vector3(2, 2, 0)
+player_container = ue.GameObject.Find("Players")
+
+def init_players(population):
+  return [ue.GameObject.Instantiate(
+    playerPrefab, ue.Vector3(2, 2, 0),
+    ue.Quaternion(0, 0, 0, 0), player_container.transform)
+   
+    for _ in range(population)
+  ]
+
+properties.players = init_players(properties.populationSize)
+
+properties.isRunning = True;
