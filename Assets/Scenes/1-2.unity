@@ -1761,8 +1761,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
-      propertyPath: generationPerMoveIncrease
+      propertyPath: moveCount
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
+      propertyPath: mutationRate
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
+      propertyPath: populationSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
+      propertyPath: selectionCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
+      propertyPath: generationPerMoveIncrease
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3226377356179665353, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: m_RootOrder
@@ -4703,7 +4719,7 @@ Transform:
   - {fileID: 765156808}
   - {fileID: 320000387}
   m_Father: {fileID: 905556406}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &886472936
 PrefabInstance:
@@ -4823,9 +4839,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 877798649}
+  - {fileID: 1449712422}
   - {fileID: 629415185}
+  - {fileID: 877798649}
   - {fileID: 1219828923}
+  - {fileID: 1552734941}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6752,7 +6770,7 @@ Transform:
   - {fileID: 1663960976}
   - {fileID: 105508422}
   m_Father: {fileID: 905556406}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1222720808
 PrefabInstance:
@@ -8232,13 +8250,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449712421}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 905556406}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1452603784 stripped
 Transform:
@@ -8863,6 +8881,77 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2646851722885787427, guid: 9903933b58acc450fa13af1d57447155, type: 3}
   m_PrefabInstance: {fileID: 1532657783}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1552734940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552734941}
+  - component: {fileID: 1552734942}
+  - component: {fileID: 1552734943}
+  m_Layer: 0
+  m_Name: Death Barrier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1552734941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552734940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 100, y: -10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 905556406}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1552734942
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552734940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 300, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &1552734943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552734940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26646d2b131ff084abb75209ab06bcb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1556690148
 PrefabInstance:
   m_ObjectHideFlags: 0

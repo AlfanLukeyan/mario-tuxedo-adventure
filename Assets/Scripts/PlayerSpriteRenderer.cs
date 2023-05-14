@@ -16,15 +16,6 @@ public class PlayerSpriteRenderer : MonoBehaviour
     spriteRenderer = GetComponent<SpriteRenderer>();
     movement = GetComponentInParent<PlayerMovement>();
   }
-
-  private void OnEnable() {
-    spriteRenderer.enabled = true;
-  }
-
-  private void OnDisable() {
-    spriteRenderer.enabled = false;
-  }
-
   private void LateUpdate() {
     run.enabled = movement.isRunning;
     
@@ -35,5 +26,15 @@ public class PlayerSpriteRenderer : MonoBehaviour
     } else if (!movement.isRunning) {
       spriteRenderer.sprite = idle;
     }
+  }
+
+  private void OnEnable()
+  {
+      spriteRenderer.enabled = true;
+  }
+  private void OnDisable()
+  {
+    spriteRenderer.enabled = false;
+    run.enabled = false;
   }
 }

@@ -16,10 +16,11 @@ def fitness(players):
   for player in players:
     player_properties = player.GetComponent("PlayerGeneticAlgorithm")
     distance = ue.Vector3.Distance(flag_position.transform.position, player.transform.position)
-    left_penalty = player_properties.moves.count(properties.MOVESLIST[1]) * 2
-    default_penalty = player_properties.moves.count(properties.MOVESLIST[0]) * 2
+    left_penalty = player_properties.moves.count(properties.MOVESLIST[1])
+    default_penalty = player_properties.moves.count(properties.MOVESLIST[0])
     collision_penalty = player_properties.collisionCount * 5
-    player_properties.fitness = distance + left_penalty + default_penalty + collision_penalty
+    death_penalty = 9999 if player_properties.isDead else 0
+    player_properties.fitness = distance + left_penalty + default_penalty + collision_penalty + death_penalty
   return players
 
 def selection(players):
@@ -72,6 +73,7 @@ def mutation(players):
 
 def reset(players):
   for player in players:
+    player.SetActive(True)
     player_movement = player.GetComponent("PlayerMovement")
     player.transform.SetLocalPositionAndRotation(ue.Vector3(2, 2, 0),ue.Quaternion(0, 0, 0, 0))
     player_movement.Reset()

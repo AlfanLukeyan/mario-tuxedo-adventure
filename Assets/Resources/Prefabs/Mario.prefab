@@ -327,9 +327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  maxJumpHeight: 4.5
+  maxJumpHeight: 5
   maxJumpTime: 1
-  finishedMoving: 0
   playerGeneticAlgorithm: {fileID: 806220080560756915}
   geneticAlgorithm: {fileID: 0}
 --- !u!114 &806220080560756915
@@ -346,5 +345,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moves: 
   fitness: 0
-  moveCounter: 0
+  collisionCount: 0
+  isDead: 0
   geneticAlgorithm: {fileID: 0}

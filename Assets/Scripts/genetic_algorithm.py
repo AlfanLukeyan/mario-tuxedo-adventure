@@ -10,7 +10,7 @@ def init_players(population):
   return [ue.GameObject.Instantiate(
     playerPrefab, ue.Vector3(2, 2, 0),
     ue.Quaternion(0, 0, 0, 0), player_container.transform)
-   
+  
     for _ in range(population)
   ]
 

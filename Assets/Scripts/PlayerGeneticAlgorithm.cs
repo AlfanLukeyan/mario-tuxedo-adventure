@@ -8,6 +8,7 @@ public class PlayerGeneticAlgorithm : MonoBehaviour
   public float fitness;
 
   public int collisionCount;
+  public bool isDead = false;
   public GeneticAlgorithm geneticAlgorithm;
 
   private void Awake() {

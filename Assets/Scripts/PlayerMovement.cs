@@ -3,8 +3,8 @@ using UnityEditor.Scripting.Python;
 using Constants;
 
 public class PlayerMovement : MonoBehaviour {
-  private new Camera camera;
   private new Rigidbody2D rigidbody;
+  private new Collider2D collider;
 
   private Vector2 velocity;
   private float inputAxis;
@@ -19,17 +19,38 @@ public class PlayerMovement : MonoBehaviour {
   public bool isJumping { get; private set; }
   public bool isRunning => Mathf.Abs(velocity.x) > 0.25f;
   public bool isSliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
-  public bool finishedMoving = false;
-  public int moveCounter = 0;
-  public bool pressedJump = false;
+  public bool finishedMoving { get; private set; }
+  public int moveCounter { get; private set; }
+  public bool pressedJump { get; private set; }
   
   public PlayerGeneticAlgorithm playerGeneticAlgorithm;
   public GeneticAlgorithm geneticAlgorithm;
 
   private void Awake() {
-    rigidbody = GetComponent<Rigidbody2D>();
     geneticAlgorithm = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
-    camera = Camera.main;
+    rigidbody = GetComponent<Rigidbody2D>();
+    collider = GetComponent<Collider2D>();
+  }
+
+  private void OnEnable() {
+    rigidbody.isKinematic = false;
+    collider.enabled = true;
+    velocity = Vector2.zero;
+    isJumping = false;
+    finishedMoving = false;
+    pressedJump = false;
+  }
+
+  private void OnDisable() {
+    rigidbody.isKinematic = true;
+    collider.enabled = false;
+    velocity = Vector2.zero;
+    isJumping = true;
+    if (!finishedMoving) {
+      finishedMoving = true;
+      geneticAlgorithm.finishedCount++;
+    }
+    playerGeneticAlgorithm.isDead = true;
   }
 
   private void Update() {
@@ -100,11 +121,6 @@ public class PlayerMovement : MonoBehaviour {
   private void FixedUpdate() {
     Vector2 position = rigidbody.position;
     position += velocity * Time.fixedDeltaTime;
-
-    // Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
-    // Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-    // position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
 
     rigidbody.MovePosition(position);
     if (moveCounter < geneticAlgorithm.moveCount) {
