@@ -53,7 +53,7 @@ MonoBehaviour:
   generationPerMoveIncrease: 5
   currentGeneration: 1
   finishedCount: 0
-  isRunning: 1
+  isRunning: 0
   moveSavedCount: 0
   moveSaved: 
   players: []

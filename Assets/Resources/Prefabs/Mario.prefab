@@ -361,5 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f9fa9dfd5967e418450dde19399a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smallRenderer: {fileID: 5435763446875200625}
   playerProperties: {fileID: 806220080560756915}
   playerMovement: {fileID: 5975416828298120558}
+  player: {fileID: 0}

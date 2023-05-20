@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
       }
     }
 
-    isGrounded = rigidbody.Raycast(Vector2.down);
+    isGrounded = rigidbody.Raycast(Vector2.down, 0.375f);
     
     HorizontalMovement();
 
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour {
   private void HorizontalMovement() {
     velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
 
-    if (rigidbody.Raycast(Vector2.right * velocity.x)) {
+    if (rigidbody.Raycast(Vector2.right * velocity.x, 0.15f)) {
       playerGeneticAlgorithm.collisionCount++;
       velocity.x = 0f;
     }
