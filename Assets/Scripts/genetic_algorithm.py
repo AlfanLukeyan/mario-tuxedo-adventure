@@ -9,7 +9,7 @@ player_container = ue.GameObject.Find("Players")
 def init_players(population):
   return [ue.GameObject.Instantiate(
     playerPrefab, ue.Vector3(2, 2, 0),
-    ue.Quaternion(0, 0, 0, 0), player_container.transform)
+    ue.Quaternion(0, 0, 0, 0), player_container.transform).GetComponent("Player")
   
     for _ in range(population)
   ]

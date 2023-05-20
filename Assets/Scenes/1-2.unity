@@ -1762,7 +1762,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: moveCount
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: mutationRate
@@ -1770,11 +1770,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: populationSize
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: selectionCount
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3226377356179665352, guid: 1809a09b8d1f8654393b4f2fb9c7fd16, type: 3}
       propertyPath: generationPerMoveIncrease

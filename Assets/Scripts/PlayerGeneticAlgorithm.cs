@@ -16,7 +16,7 @@ public class PlayerGeneticAlgorithm : MonoBehaviour
 
     moves = new List<Move>(geneticAlgorithm.moveSaved);
     for (int i = geneticAlgorithm.moveSavedCount; i < geneticAlgorithm.moveCount; i++) {
-      moves.Add((Move) Random.Range(0, 4));
+      moves.Add((Move) Random.Range(1, 4));
     }
 
     Reset();

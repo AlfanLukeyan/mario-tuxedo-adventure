@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
     rigidbody.isKinematic = true;
     collider.enabled = false;
     velocity = Vector2.zero;
-    isJumping = true;
+    isJumping = false;
     if (!finishedMoving) {
       finishedMoving = true;
       geneticAlgorithm.finishedCount++;
@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour {
       if (moveCounter < geneticAlgorithm.moveCount) {
         Move move = playerGeneticAlgorithm.moves[moveCounter];
         if (move == Move.RIGHT) inputAxis = 1;
-        if (move == Move.DEFAULT) inputAxis = 0;
         if (move == Move.LEFT) inputAxis = -1;
         if (move == Move.JUMP) pressedJump = true;
         else pressedJump = false;
@@ -139,6 +138,10 @@ public class PlayerMovement : MonoBehaviour {
 
   public void Reset() {
     moveCounter = 0;
+    inputAxis = 0;
+    velocity = Vector2.zero;
+    isJumping = false;
     finishedMoving = false;
+    pressedJump = false;
   }
 }

@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.Scripting.Python;
 using Constants;
 using System.Collections.Generic;
+using System;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
@@ -20,12 +21,16 @@ public class GeneticAlgorithm : MonoBehaviour
   public bool isRunning = false;
   public int moveSavedCount;
   public List<Move> moveSaved;
-  public GameObject[] players;
-  public Move[] MOVESLIST = {Move.DEFAULT, Move.LEFT, Move.RIGHT, Move.JUMP};
+  public Player[] players;
+  public Move[] MOVESLIST;
 
   [MenuItem("Python/Genetic Algorithm")]
   public static void RunGeneticAlgorithm() {
     PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
+  }
+
+  private void Awake() {
+    MOVESLIST = (Move[]) Enum.GetValues(typeof(Move));
   }
 
   private void Update() {
