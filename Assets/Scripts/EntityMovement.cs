@@ -10,14 +10,17 @@ public class EntityMovement : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private Vector2 velocity;
 
+    private GeneticAlgorithm properties;
+
     private void Awake()
     {
+        properties = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        if (!GeneticAlgorithm.Instance.isRunning) return;
+        if (!properties.isRunning) return;
         velocity.x = direction.x * speed;
         velocity.y += Physics2D.gravity.y * Time.fixedDeltaTime;
 

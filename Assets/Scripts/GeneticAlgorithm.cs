@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 using UnityEditor.Scripting.Python;
 using Constants;
 using System.Collections.Generic;
 using System;
+using TMPro;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
-  public static GeneticAlgorithm Instance;
   public int generationMax;
   public int populationSize;
   public float mutationRate;
@@ -16,6 +17,7 @@ public class GeneticAlgorithm : MonoBehaviour
   public int moveIncreaseAmount;
   public int generationPerMoveIncrease;
   public int currentGeneration = 1;
+  public float bestFitness = 0f;
 
   public int finishedCount = 0;
   public bool isRunning = false;
@@ -23,6 +25,13 @@ public class GeneticAlgorithm : MonoBehaviour
   public List<Move> moveSaved;
   public Player[] players;
   public Move[] MOVESLIST;
+
+  public TextMeshProUGUI currentGenerationHUD;
+  public TextMeshProUGUI moveCountHUD;
+  public TextMeshProUGUI populationHUD;
+  public TextMeshProUGUI fitnessHUD;
+
+  public LevelManager levelManager;
 
   public int moveCounter = 0;
 
@@ -32,14 +41,10 @@ public class GeneticAlgorithm : MonoBehaviour
   }
 
   private void Awake() {
-    if (Instance != null) {
-      DestroyImmediate(gameObject);
-    } else {
-      Instance = this;
-      DontDestroyOnLoad(gameObject);
-    }
+    levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
 
     MOVESLIST = (Move[]) Enum.GetValues(typeof(Move));
+    UpdateHUD();
   }
 
   private void Update() {
@@ -60,8 +65,16 @@ public class GeneticAlgorithm : MonoBehaviour
         moveCounter = 0;
         isRunning = false;
         PythonRunner.RunFile($"{Application.dataPath}/Scripts/evaluate.py", "__main__");
-        GameManager.Instance.Reset();
+        levelManager.Reset();
+        UpdateHUD();
       }
     }
+  }
+
+  private void UpdateHUD() {
+    currentGenerationHUD.text = $"GENS: {currentGeneration}";
+    moveCountHUD.text = $"MOVES: {moveCount}";
+    populationHUD.text = $"POPULATION: {populationSize}";
+    fitnessHUD.text = $"BEST FITNESS: {String.Format("{0:0.000}", bestFitness)}";
   }
 }

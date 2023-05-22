@@ -1,33 +1,29 @@
 using UnityEngine;
 
+// Class for camera side scrolling
 public class SideScrolling : MonoBehaviour
 {
-  private Transform player;
-
+  public new Camera camera;
   private Vector3 cameraPosition;
-  public float cameraSpeed = 5;
+  public float cameraSpeed;
   private float inputAxis;
 
+  public float leftLimit;
+  public float rightLimit;
+  public float offset;
+
   void Awake() {
-    cameraPosition = this.transform.position;
+    cameraPosition = transform.position;
+    camera = UnityEngine.Camera.main;
+    offset = (camera.orthographicSize * camera.aspect);
   }
 
-  private void Update() {
+  private void LateUpdate() {
     inputAxis = Input.GetAxis("Camera Horizontal");
 
     cameraPosition.x += inputAxis * cameraSpeed * Time.deltaTime;
 
+    cameraPosition.x = Mathf.Clamp(cameraPosition.x, leftLimit + offset, rightLimit - offset);
     transform.position = cameraPosition;
   }
-
-  // private void Awake() {
-  //   player = GameObject.FindWithTag("Player").transform;
-  // }
-
-  // private void LateUpdate() {
-  //   Vector3 cameraPosition = transform.position;
-  //   cameraPosition.x = Mathf.Max(cameraPosition.x, player.position.x);
-    
-  //   transform.position = cameraPosition;
-  // }
 }

@@ -7,11 +7,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public int world { get; private set; }
-    public Transform enemies;
-    
-    public GameObject goombaPrefab;
-    
-
     private void Awake()
     {
         if (Instance != null) {
@@ -20,8 +15,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        enemies = GameObject.Find("Enemies").transform;
-        goombaPrefab = Resources.Load<GameObject>("Prefabs/Goomba");
     }
 
     private void OnDestroy()
@@ -35,17 +28,5 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
     }
-
-    public void Reset() {
-        GameObject enemyContainer = new GameObject("Enemies");
-        foreach (Transform enemy in enemies) {
-          Vector2 position = enemy.gameObject.GetComponent<Goomba>().position;
-
-          Instantiate(goombaPrefab, position, new Quaternion(0, 0, 0, 0), enemyContainer.transform);
-        }
-        Destroy(enemies.gameObject);
-        enemies = enemyContainer.transform;
-    }
-
 
 }

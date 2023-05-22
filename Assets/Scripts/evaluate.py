@@ -18,19 +18,20 @@ def newPlayer():
   
 
 def fitness(players):
-  flag_position.y += 10
+  # flag_position.y += 10
   for player in players:
     distance = ue.Vector3.Distance(flag_position, player.transform.position)
-    # left_penalty = player.moves.count(properties.MOVESLIST[0])
-    # collision_penalty = player.collisionCount * 5
-    death_penalty = 99999 if player.isDead else 0
-    player.fitness = distance+ death_penalty
+    collision_penalty = player.collisionCount
+    death_penalty = 9999 if player.isDead else 0
+    player.fitness = 1 / (distance + death_penalty + collision_penalty)
+    if player.fitness > properties.bestFitness:
+      properties.bestFitness = player.fitness
   return players
 
 def selection(players):
   temp = [(player, player.fitness) for player in players]
 
-  temp = sorted(temp, key=lambda player: player[1])
+  temp = sorted(temp, key=lambda player: player[1], reverse=True)
 
   players = [player for player, _ in temp]
 
@@ -100,9 +101,6 @@ def genetic_algorithm():
   properties.players = players
 
 if __name__ == "__main__":
-  # deaths = sum(player.isDead for player in properties.players)
-  # if deaths >= properties.populationSize:
-  #   properties.
   if properties.currentGeneration >= 10 and properties.currentGeneration % properties.generationPerMoveIncrease == 0:
     increase_moves()
   else:

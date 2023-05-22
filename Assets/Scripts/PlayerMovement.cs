@@ -20,14 +20,17 @@ public class PlayerMovement : MonoBehaviour {
   public bool isJumping { get; private set; }
   public bool isRunning => Mathf.Abs(velocity.x) > 0.25f;
   public bool isSliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
+  public bool isFalling => velocity.y < 0f || !pressedJump;
   public bool finishedMoving { get; private set; }
   public int moveCounter { get; private set; }
   public bool pressedJump { get; private set; }
   
   public Player player;
+  public GeneticAlgorithm properties;
   private void Awake() {
     rigidbody = GetComponent<Rigidbody2D>();
     collider = GetComponent<Collider2D>();
+    properties = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
   }
 
   private void OnEnable() {
@@ -46,7 +49,7 @@ public class PlayerMovement : MonoBehaviour {
     isJumping = false;
     if (!finishedMoving) {
       finishedMoving = true;
-      GeneticAlgorithm.Instance.finishedCount++;
+      properties.finishedCount++;
     }
   }
 
@@ -56,7 +59,7 @@ public class PlayerMovement : MonoBehaviour {
     HorizontalMovement();
 
     ApplyGravity();
-    
+
     if (isGrounded) {
       GroundedMovement();
     }
@@ -88,7 +91,6 @@ public class PlayerMovement : MonoBehaviour {
   }
 
   private void ApplyGravity() {
-    bool isFalling = velocity.y < 0f || !pressedJump;
     float multiplier = isFalling ? 2f : 1f;
 
     velocity.y += gravity * multiplier * Time.fixedDeltaTime;
@@ -103,7 +105,7 @@ public class PlayerMovement : MonoBehaviour {
     position += velocity * Time.fixedDeltaTime;
 
     rigidbody.MovePosition(position);
-    if (moveCounter < GeneticAlgorithm.Instance.moveCount) {
+    if (moveCounter < properties.moveCount) {
       moveCounter++;
     }
   }
@@ -141,18 +143,8 @@ public class PlayerMovement : MonoBehaviour {
     inputAxis = 0;
     pressedJump = false;
     if (isGrounded && Mathf.Abs(velocity.x) < 0.1 && !finishedMoving) {
-      // velocity = Vector2.zero;
       finishedMoving = true;
-      GeneticAlgorithm.Instance.finishedCount++;
+      properties.finishedCount++;
     }
-  }
-
-  public void Reset() {
-    moveCounter = 0;
-    inputAxis = 0;
-    velocity = Vector2.zero;
-    isJumping = false;
-    finishedMoving = false;
-    pressedJump = false;
   }
 }
