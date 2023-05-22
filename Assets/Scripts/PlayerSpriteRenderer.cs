@@ -30,7 +30,7 @@ public class PlayerSpriteRenderer : MonoBehaviour
 
   private void OnEnable()
   {
-      spriteRenderer.enabled = true;
+    spriteRenderer.enabled = true;
   }
   private void OnDisable()
   {

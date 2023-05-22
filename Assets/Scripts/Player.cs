@@ -1,49 +1,49 @@
 using System.Collections;
+using System.Collections.Generic;
+using Constants;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerSpriteRenderer smallRenderer;
-    private PlayerSpriteRenderer activeRenderer;
+    public PlayerSpriteRenderer spriteRenderer;
 
     public CapsuleCollider2D capsuleCollider { get; private set; }
     public DeathAnimation deathAnimation { get; private set; }
 
-    public bool dead => deathAnimation.enabled;
+    public bool isDead => deathAnimation.enabled || !player.activeSelf;
 
-    public PlayerGeneticAlgorithm playerProperties;
+    public List<Move> moves;
+    public int collisionCount;
+    public float fitness;
     public PlayerMovement playerMovement;
 
     public GameObject player;
 
-    public void Reset() {
-        player.SetActive(true);
-        playerProperties.Reset();
-        playerMovement.Reset();
-        player.transform.SetLocalPositionAndRotation(new Vector3(2, 2, 0), new Quaternion(0, 0, 0, 0));
+    private void Awake()
+    {
+      
+      player = gameObject;
+      capsuleCollider = GetComponent<CapsuleCollider2D>();
+      deathAnimation = GetComponent<DeathAnimation>();
+
+      moves = new List<Move>(GeneticAlgorithm.Instance.moveSaved);
+      for (int i = GeneticAlgorithm.Instance.moveSavedCount; i < GeneticAlgorithm.Instance.moveCount; i++) {
+        moves.Add((Move) Random.Range(1, 4));
+      }
     }
     
     public void Hit()
     {
-        if (!dead)
-        {
-            Death();
-        }
-    }
-    private void Awake()
-    {
-        player = gameObject;
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
-        deathAnimation = GetComponent<DeathAnimation>();
-        activeRenderer = smallRenderer;
+      if (!isDead)
+      {
+        Death();
+      }
     }
 
     public void Death()
     {
-        smallRenderer.enabled = false;
-        deathAnimation.enabled = true;
+      spriteRenderer.enabled = false;
+      deathAnimation.enabled = true;
     }
-
-
 }
 

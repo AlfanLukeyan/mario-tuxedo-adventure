@@ -13,32 +13,11 @@ public class EntityMovement : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        enabled = false;
-    }
-
-    private void OnBecameVisible()
-    {
-        enabled = true;
-    }
-
-    private void OnBecameInvisible()
-    {
-        enabled = false;
-    }
-
-    private void OnEnable()
-    {
-        rigidbody.WakeUp();
-    }
-
-    private void OnDisable()
-    {
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.Sleep();
     }
 
     private void FixedUpdate()
     {
+        if (!GeneticAlgorithm.Instance.isRunning) return;
         velocity.x = direction.x * speed;
         velocity.y += Physics2D.gravity.y * Time.fixedDeltaTime;
 

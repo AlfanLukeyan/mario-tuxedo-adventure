@@ -4,42 +4,21 @@ using UnityEngine;
 
 public class Goomba : MonoBehaviour
 {
-    public Sprite flatSprite;
+  public Vector2 position;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+  private void Awake() {
+    position = transform.position;
+  }
+
+  private void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.gameObject.CompareTag("Player"))
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Player player = collision.gameObject.GetComponent<Player>();
+      Player player = other.gameObject.GetComponent<Player>();
 
-            if (collision.transform.DotTest(transform, Vector2.down)) {
-                Flatten();
-            } else {
-                player.Hit();
-            }
-        }
+      if (!other.transform.DotTest(transform, Vector2.down)) {    
+          player.Hit();
+      }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Shell")) {
-            Hit();
-        }
-    }
-
-    private void Flatten()
-    {
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<EntityMovement>().enabled = false;
-        GetComponent<AnimatedSprite>().enabled = false;
-        GetComponent<SpriteRenderer>().sprite = flatSprite;
-        Destroy(gameObject, 0.5f);
-    }
-
-    private void Hit()
-    {
-        GetComponent<AnimatedSprite>().enabled = false;
-        GetComponent<DeathAnimation>().enabled = true;
-        Destroy(gameObject, 3f);
-    }
+  }
 }

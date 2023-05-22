@@ -6,11 +6,6 @@ public class DeathAnimation : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Sprite deadSprite;
 
-    private void Reset()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
     private void OnEnable()
     {
         UpdateSprite();

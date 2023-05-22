@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor.Scripting.Python;
 using Constants;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour {
   private new Rigidbody2D rigidbody;
@@ -10,7 +11,7 @@ public class PlayerMovement : MonoBehaviour {
   private float inputAxis;
 
   public float moveSpeed = 8f;
-  public float maxJumpHeight = 4f;
+  public float maxJumpHeight = 5f;
   public float maxJumpTime = 1f;
   public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
   public float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2);
@@ -23,11 +24,8 @@ public class PlayerMovement : MonoBehaviour {
   public int moveCounter { get; private set; }
   public bool pressedJump { get; private set; }
   
-  public PlayerGeneticAlgorithm playerGeneticAlgorithm;
-  public GeneticAlgorithm geneticAlgorithm;
-
+  public Player player;
   private void Awake() {
-    geneticAlgorithm = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
     rigidbody = GetComponent<Rigidbody2D>();
     collider = GetComponent<Collider2D>();
   }
@@ -48,44 +46,27 @@ public class PlayerMovement : MonoBehaviour {
     isJumping = false;
     if (!finishedMoving) {
       finishedMoving = true;
-      geneticAlgorithm.finishedCount++;
+      GeneticAlgorithm.Instance.finishedCount++;
     }
-    playerGeneticAlgorithm.isDead = true;
   }
 
   private void Update() {
-    if (geneticAlgorithm.isRunning) {
-      if (moveCounter < geneticAlgorithm.moveCount) {
-        Move move = playerGeneticAlgorithm.moves[moveCounter];
-        if (move == Move.RIGHT) inputAxis = 1;
-        if (move == Move.LEFT) inputAxis = -1;
-        if (move == Move.JUMP) pressedJump = true;
-        else pressedJump = false;
-      } else {
-        inputAxis = 0;
-        if (isGrounded && Mathf.Abs(velocity.x) < 0.1 && !finishedMoving) {
-          finishedMoving = true;
-          geneticAlgorithm.finishedCount++;
-        }
-      }
-    }
-
     isGrounded = rigidbody.Raycast(Vector2.down, 0.375f);
     
     HorizontalMovement();
 
+    ApplyGravity();
+    
     if (isGrounded) {
       GroundedMovement();
     }
-
-    ApplyGravity();
   }
 
   private void HorizontalMovement() {
     velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
 
     if (rigidbody.Raycast(Vector2.right * velocity.x, 0.15f)) {
-      playerGeneticAlgorithm.collisionCount++;
+      player.collisionCount++;
       velocity.x = 0f;
     }
 
@@ -110,7 +91,7 @@ public class PlayerMovement : MonoBehaviour {
     bool isFalling = velocity.y < 0f || !pressedJump;
     float multiplier = isFalling ? 2f : 1f;
 
-    velocity.y += gravity * multiplier * Time.deltaTime;
+    velocity.y += gravity * multiplier * Time.fixedDeltaTime;
 
     // Terminal velocity in y axis
     velocity.y = Mathf.Max(velocity.y, gravity / 2f);
@@ -122,17 +103,47 @@ public class PlayerMovement : MonoBehaviour {
     position += velocity * Time.fixedDeltaTime;
 
     rigidbody.MovePosition(position);
-    if (moveCounter < geneticAlgorithm.moveCount) {
+    if (moveCounter < GeneticAlgorithm.Instance.moveCount) {
       moveCounter++;
     }
   }
 
   private void OnCollisionEnter2D(Collision2D collision) {
-    if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp")) {
-      if (transform.DotTest(collision.transform, Vector2.up)) {
-        playerGeneticAlgorithm.collisionCount++;
-        velocity.y = 0f;
+    if (transform.DotTest(collision.transform, Vector2.up)) {
+      player.collisionCount++;
+      velocity.y = 0f;
+    }
+  }
+
+  private void OnTriggerEnter2D(Collider2D other) {
+    if (other.gameObject.CompareTag("Enemy")) {
+      // bounce off enemy head
+      if (transform.DotTest(other.transform, Vector2.down))
+      {
+        Physics2D.IgnoreCollision(
+          other, 
+          GetComponentsInChildren<Collider2D>().First(c => c.gameObject != gameObject));
+        velocity.y = jumpForce / 2f;
+        isJumping = true;
       }
+    }
+    
+  }
+
+  public void ProcessMove(Move move) {
+    if (move == Move.RIGHT) inputAxis = 1;
+    if (move == Move.LEFT) inputAxis = -1;
+    if (move == Move.JUMP) pressedJump = true;
+    else pressedJump = false;
+  }
+
+  public void StopMove() {
+    inputAxis = 0;
+    pressedJump = false;
+    if (isGrounded && Mathf.Abs(velocity.x) < 0.1 && !finishedMoving) {
+      // velocity = Vector2.zero;
+      finishedMoving = true;
+      GeneticAlgorithm.Instance.finishedCount++;
     }
   }
 
