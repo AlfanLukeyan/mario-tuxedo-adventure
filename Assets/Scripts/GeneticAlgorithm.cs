@@ -7,6 +7,9 @@ using System;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
+  private LevelManager levelManager;
+
+  // Properties
   public int generationMax;
   public int populationSize;
   public float mutationRate;
@@ -14,16 +17,18 @@ public class GeneticAlgorithm : MonoBehaviour
   public int selectionCount;
   public int moveIncreaseAmount;
   public int generationPerMoveIncrease;
+
   public int currentGeneration = 1;
   public float bestFitness = 0f;
 
   public int finishedCount = 0;
   public bool isRunning = false;
+
   public int moveSavedCount;
   public List<Move> moveSaved;
+
   public Player[] players;
   public Move[] MOVESLIST;
-  public LevelManager levelManager;
 
   public int moveCounter = 0;
 
@@ -32,13 +37,17 @@ public class GeneticAlgorithm : MonoBehaviour
     PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
   }
 
-  public void StartGeneticAlgorithm() {
-    PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
-    levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
-    levelManager.UpdateHUD();
+  private void Awake() {
+    MOVESLIST = (Move[]) Enum.GetValues(typeof(Move));
   }
 
-  public void SetProperties(int generations, int population, float mutationRate, int moves, int selection, int moveIncrease, int genPerMoveIncrease) {
+  // For starting the genetic algorithm
+  public void StartGeneticAlgorithm() {
+    PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
+  }
+
+  // Sets the properties of the genetic algorithm
+  public void Initialize(int generations, int population, float mutationRate, int moves, int selection, int moveIncrease, int genPerMoveIncrease) {
     this.generationMax = generations;
     this.populationSize = population;
     this.mutationRate = mutationRate;
@@ -46,12 +55,11 @@ public class GeneticAlgorithm : MonoBehaviour
     this.selectionCount = selection;
     this.moveIncreaseAmount = moveIncrease;
     this.generationPerMoveIncrease = genPerMoveIncrease;
+    
+    levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
   }
 
-  private void Awake() {
-    MOVESLIST = (Move[]) Enum.GetValues(typeof(Move));
-  }
-
+  // Handles player move processing and evaluation
   private void Update() {
     
     if (isRunning) {

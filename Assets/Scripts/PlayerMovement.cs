@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
   
   public Player player;
   public GeneticAlgorithm properties;
+
   private void Awake() {
     rigidbody = GetComponent<Rigidbody2D>();
     collider = GetComponent<Collider2D>();
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+// Compute movement each frame
   private void Update() {
     isGrounded = rigidbody.Raycast(Vector2.down, 0.375f);
     
@@ -65,6 +67,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  // Mario's horizontal movement (x axis)
   private void HorizontalMovement() {
     velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
 
@@ -80,6 +83,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  // Mario's grounded movement for jumping
   private void GroundedMovement() {
     velocity.y = Mathf.Max(velocity.y, 0f);
     isJumping = velocity.y > 0f;
@@ -90,6 +94,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  // Mario's gravity
   private void ApplyGravity() {
     float multiplier = isFalling ? 2f : 1f;
 
@@ -100,6 +105,7 @@ public class PlayerMovement : MonoBehaviour {
 
   }
 
+  // Set Mario's position every fixed timestep
   private void FixedUpdate() {
     Vector2 position = rigidbody.position;
     position += velocity * Time.fixedDeltaTime;
@@ -110,6 +116,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  // Set y velocity to 0 on head bump
   private void OnCollisionEnter2D(Collision2D collision) {
     if (transform.DotTest(collision.transform, Vector2.up)) {
       player.collisionCount++;
@@ -117,6 +124,7 @@ public class PlayerMovement : MonoBehaviour {
     }
   }
 
+  // Handle colliding with enemy
   private void OnTriggerEnter2D(Collider2D other) {
     if (other.gameObject.CompareTag("Enemy")) {
       // bounce off enemy head
@@ -124,14 +132,19 @@ public class PlayerMovement : MonoBehaviour {
       {
         Physics2D.IgnoreCollision(
           other, 
-          GetComponentsInChildren<Collider2D>().First(c => c.gameObject != gameObject));
+          GetComponentsInChildren<Collider2D>().First(c => c.gameObject != gameObject)
+        );
         velocity.y = jumpForce / 2f;
         isJumping = true;
+      } else {
+        // Player dies
+        player.Hit();
       }
     }
     
   }
 
+  // Set the action for Mario in a frame
   public void ProcessMove(Move move) {
     if (move == Move.RIGHT) inputAxis = 1;
     if (move == Move.LEFT) inputAxis = -1;
@@ -139,6 +152,7 @@ public class PlayerMovement : MonoBehaviour {
     else pressedJump = false;
   }
 
+  // Stop Mario's movement
   public void StopMove() {
     inputAxis = 0;
     pressedJump = false;

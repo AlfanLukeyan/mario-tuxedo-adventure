@@ -17,17 +17,19 @@ def newPlayer():
     player_container.transform).GetComponent("Player")
   
 
+# Fitness from distance, death, and collisions
+# F(x) = 1/(DistanceToFlagPole + IsDead + CollisionCount)
 def fitness(players):
-  # flag_position.y += 10
   for player in players:
     distance = ue.Vector3.Distance(flag_position, player.transform.position)
     collision_penalty = player.collisionCount
     death_penalty = 9999 if player.isDead else 0
-    player.fitness = 1 / (distance + death_penalty + collision_penalty)
+    player.fitness = 1 / (distance + death_penalty + collision_penalty) * 1000
     if player.fitness > properties.bestFitness:
       properties.bestFitness = player.fitness
   return players
 
+# Selects the best players
 def selection(players):
   temp = [(player, player.fitness) for player in players]
 
@@ -41,6 +43,7 @@ def selection(players):
 
   return players[:properties.selectionCount]
 
+# Creates offspring
 def crossover(players):
   offspring = []
 
@@ -82,6 +85,7 @@ def mutation(players):
         player.moves[idx] = properties.MOVESLIST[random.randint(0, 2)]
   return players
 
+# Increases the moveCount for the new generation
 def increase_moves():
   properties.moveSavedCount = properties.moveCount
   properties.moveCount += properties.moveIncreaseAmount
@@ -92,7 +96,7 @@ def increase_moves():
     ue.Object.Destroy(player.gameObject)
   properties.players = [newPlayer() for _ in range(properties.populationSize)]
   
-
+# Run the evaluation
 def genetic_algorithm():
   players = fitness(properties.players)
   players = selection(players)

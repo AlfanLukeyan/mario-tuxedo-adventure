@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Sprite class for repeating sprites
 public class AnimatedSprite : MonoBehaviour
 {
   public Sprite[] sprites;

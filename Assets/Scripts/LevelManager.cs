@@ -6,16 +6,20 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private GeneticAlgorithm properties;
     
+    // Save and reset enemies
     public Transform enemyContainer;
     public List<GameObject> enemies;
     public GameObject goombaPrefab;
-    public GeneticAlgorithm properties;
+
+    // HUD
     public TextMeshProUGUI currentGenerationHUD;
     public TextMeshProUGUI moveCountHUD;
     public TextMeshProUGUI populationHUD;
     public TextMeshProUGUI fitnessHUD;
 
+    // Initialize level manager
     private void Awake() {
       enemyContainer = GameObject.Find("Enemies").transform;
       goombaPrefab = Resources.Load<GameObject>("Prefabs/Goomba");
@@ -25,13 +29,15 @@ public class LevelManager : MonoBehaviour
       }
 
       properties = GameManager.Instance.geneticAlgorithm;
+      UpdateHUD();
     }
 
+    // Resetting enemy positions
     public void Reset() {
       List<GameObject> newEnemies = new List<GameObject>();
 
       foreach (GameObject enemy in enemies) {
-        Vector2 position = enemy.GetComponent<Goomba>().position;
+        Vector2 position = enemy.GetComponent<Enemy>().position;
         newEnemies.Add(Instantiate(goombaPrefab, position, new Quaternion(0, 0, 0, 0), enemyContainer.transform));
         Destroy(enemy);
       }
@@ -39,6 +45,7 @@ public class LevelManager : MonoBehaviour
       enemies = newEnemies;
     }
 
+  // Updating the HUD
   public void UpdateHUD() {
     currentGenerationHUD.text = $"GENS: {properties.currentGeneration}";
     moveCountHUD.text = $"MOVES: {properties.moveCount}";

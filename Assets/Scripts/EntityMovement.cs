@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class for movement for entities like goomba 
 public class EntityMovement : MonoBehaviour
 {
     public float speed = 1f;
@@ -18,6 +19,7 @@ public class EntityMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    // Movement handling
     private void FixedUpdate()
     {
         if (!properties.isRunning) return;
@@ -26,14 +28,17 @@ public class EntityMovement : MonoBehaviour
 
         rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
 
+        // Change direction when near a wall
         if (rigidbody.Raycast(direction, 0.375f)) {
             direction = -direction;
         }
 
+        // Set y velocity to 0 when on ground
         if (rigidbody.Raycast(Vector2.down, 0.375f)) {
             velocity.y = Mathf.Max(velocity.y, 0f);
         }
 
+        // Set direction the Goomba is facing
         if (direction.x > 0f) {
             transform.localEulerAngles = new Vector3(0f, 180f, 0f);
         } else if (direction.x < 0f) {

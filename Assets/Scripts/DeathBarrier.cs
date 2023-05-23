@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Death Boundary
 [RequireComponent(typeof(BoxCollider2D))]
 public class DeathBarrier : MonoBehaviour
 {

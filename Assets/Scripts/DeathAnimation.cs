@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+// Handles Mario's death animation
 public class DeathAnimation : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;

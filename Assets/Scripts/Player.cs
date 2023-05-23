@@ -5,42 +5,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerSpriteRenderer spriteRenderer;
-    public CapsuleCollider2D capsuleCollider { get; private set; }
-    public DeathAnimation deathAnimation { get; private set; }
-    public bool isDead => deathAnimation.enabled || !player.activeSelf;
-    public List<Move> moves;
-    public int collisionCount;
-    public float fitness;
-    public PlayerMovement playerMovement;
-    public GameObject player;
-    public GeneticAlgorithm properties;
+  // Components
+  public PlayerSpriteRenderer spriteRenderer;
+  public CapsuleCollider2D capsuleCollider { get; private set; }
+  public DeathAnimation deathAnimation { get; private set; }
 
-    private void Awake()
-    {
-      player = gameObject;
-      capsuleCollider = GetComponent<CapsuleCollider2D>();
-      deathAnimation = GetComponent<DeathAnimation>();
-      properties = GameManager.Instance.geneticAlgorithm;
+  // Objects
+  public PlayerMovement playerMovement;
+  public GameObject player;
+  public GeneticAlgorithm properties;
 
-      moves = new List<Move>(properties.moveSaved);
-      for (int i = properties.moveSavedCount; i < properties.moveCount; i++) {
-        moves.Add((Move) Random.Range(1, 4));
-      }
+  public List<Move> moves;
+
+  // Fitness
+  public float fitness;
+  public int collisionCount;
+  public bool isDead => deathAnimation.enabled || !player.activeSelf;
+
+  // Initialize player
+  private void Awake() {
+    player = gameObject;
+    capsuleCollider = GetComponent<CapsuleCollider2D>();
+    deathAnimation = GetComponent<DeathAnimation>();
+    properties = GameManager.Instance.geneticAlgorithm;
+
+    // Generate moves for Mario
+    moves = new List<Move>(properties.moveSaved);
+    for (int i = properties.moveSavedCount; i < properties.moveCount; i++) {
+      moves.Add((Move) Random.Range(1, 4));
     }
-    
-    public void Hit()
-    {
-      if (!isDead)
-      {
-        Death();
-      }
-    }
-
-    public void Death()
+  }
+  
+  // Handle if Mario is hit by an enemy
+  public void Hit() {
+    if (!isDead)
     {
       spriteRenderer.enabled = false;
       deathAnimation.enabled = true;
     }
+  }
 }
 

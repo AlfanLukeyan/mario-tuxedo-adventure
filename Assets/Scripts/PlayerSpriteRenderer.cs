@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Handles which player sprite to render
 public class PlayerSpriteRenderer : MonoBehaviour
 {
   private SpriteRenderer spriteRenderer;
@@ -16,6 +15,7 @@ public class PlayerSpriteRenderer : MonoBehaviour
     spriteRenderer = GetComponent<SpriteRenderer>();
     movement = GetComponentInParent<PlayerMovement>();
   }
+
   private void LateUpdate() {
     run.enabled = movement.isRunning;
     

@@ -4,6 +4,7 @@ using TMPro;
 
 public class SettingsMenu : MonoBehaviour
 {
+  // Inputs
   public TMP_InputField generationsField;
   public TMP_InputField populationField;
   public TMP_InputField mutationRateField;
@@ -12,6 +13,7 @@ public class SettingsMenu : MonoBehaviour
   public TMP_InputField moveIncreaseField;
   public TMP_InputField genPerMoveIncreaseField;
 
+  // Properties to save
   private int generations;
   private int population;
   private float mutationRate;
@@ -22,6 +24,7 @@ public class SettingsMenu : MonoBehaviour
 
   public Button start;
 
+  // Handle click on start button
   public void StartHandleClick() {
     if (!CheckValid()) {
       Debug.Log("Please enter valid values!");
@@ -31,6 +34,7 @@ public class SettingsMenu : MonoBehaviour
     GameManager.Instance.LoadLevel(generations, population, mutationRate, initialMoves, selection, moveIncrease, genPerMoveIncrease);
   }
 
+  // Check if input is valid
   private bool CheckValid() {
     if (string.IsNullOrWhiteSpace(generationsField.text) || !int.TryParse(generationsField.text, out generations)) {
       return false;

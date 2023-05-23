@@ -1,10 +1,9 @@
 import UnityEngine as ue
 
 playerPrefab = ue.Resources.Load("Prefabs/Mario")
-
 properties = ue.GameObject.Find("Game Manager").GetComponent("GeneticAlgorithm")
-
 player_container = ue.GameObject.Find("Players")
+
 
 def init_players(population):
   return [ue.GameObject.Instantiate(
@@ -14,6 +13,7 @@ def init_players(population):
     for _ in range(population)
   ]
 
-properties.players = init_players(properties.populationSize)
-
-properties.isRunning = True;
+# Initializing population and starting the Genetic Algorithm
+if __name__ == "__main__":
+  properties.players = init_players(properties.populationSize)
+  properties.isRunning = True;
