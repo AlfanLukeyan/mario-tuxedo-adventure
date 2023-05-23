@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Sprites/UI/Exitbutton.png.meta
-guid: 4a92287eee1d94c6cbb60297691fbe95
-========
-guid: 07b420392668bf7418e016272005e14a
->>>>>>>> b834a65 (add menus):Assets/Sprites/UI/1-1-thumbnail.png.meta
+guid: b90b94568f3851f478ea2f005f831a22
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
