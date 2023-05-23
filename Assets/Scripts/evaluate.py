@@ -5,7 +5,7 @@ import random
 playerPrefab = ue.Resources.Load("Prefabs/Mario")
 player_container = ue.GameObject.Find("Players")
 
-properties = ue.GameObject.Find("Genetic Algorithm").GetComponent("GeneticAlgorithm")
+properties = ue.GameObject.Find("Game Manager").GetComponent("GeneticAlgorithm")
 
 flag_position = ue.GameObject.Find("FlagPole").transform.position
 
@@ -21,6 +21,8 @@ def fitness(players):
   # flag_position.y += 10
   for player in players:
     distance = ue.Vector3.Distance(flag_position, player.transform.position)
+    if distance < 2:
+      return -1
     collision_penalty = player.collisionCount
     death_penalty = 9999 if player.isDead else 0
     player.fitness = 1 / (distance + death_penalty + collision_penalty)

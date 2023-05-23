@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
   private void Awake() {
     rigidbody = GetComponent<Rigidbody2D>();
     collider = GetComponent<Collider2D>();
-    properties = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
+    properties = GameManager.Instance.geneticAlgorithm;
   }
 
   private void OnEnable() {
@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour {
   private void ApplyGravity() {
     float multiplier = isFalling ? 2f : 1f;
 
-    velocity.y += gravity * multiplier * Time.fixedDeltaTime;
+    velocity.y += gravity * multiplier * Time.deltaTime;
 
     // Terminal velocity in y axis
     velocity.y = Mathf.Max(velocity.y, gravity / 2f);

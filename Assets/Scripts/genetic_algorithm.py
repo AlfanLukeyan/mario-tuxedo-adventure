@@ -2,7 +2,7 @@ import UnityEngine as ue
 
 playerPrefab = ue.Resources.Load("Prefabs/Mario")
 
-properties = ue.GameObject.Find("Genetic Algorithm").GetComponent("GeneticAlgorithm")
+properties = ue.GameObject.Find("Game Manager").GetComponent("GeneticAlgorithm")
 
 player_container = ue.GameObject.Find("Players")
 

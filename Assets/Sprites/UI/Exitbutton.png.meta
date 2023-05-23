@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Sprites/UI/Exitbutton.png.meta
 guid: 4a92287eee1d94c6cbb60297691fbe95
+========
+guid: 07b420392668bf7418e016272005e14a
+>>>>>>>> b834a65 (add menus):Assets/Sprites/UI/1-1-thumbnail.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -70,7 +74,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

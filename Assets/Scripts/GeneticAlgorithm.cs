@@ -1,11 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEditor;
 using UnityEditor.Scripting.Python;
 using Constants;
 using System.Collections.Generic;
 using System;
-using TMPro;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
@@ -25,26 +23,33 @@ public class GeneticAlgorithm : MonoBehaviour
   public List<Move> moveSaved;
   public Player[] players;
   public Move[] MOVESLIST;
-
-  public TextMeshProUGUI currentGenerationHUD;
-  public TextMeshProUGUI moveCountHUD;
-  public TextMeshProUGUI populationHUD;
-  public TextMeshProUGUI fitnessHUD;
-
   public LevelManager levelManager;
 
   public int moveCounter = 0;
 
-  [MenuItem("Python/Genetic Algorithm")]
-  public static void RunGeneticAlgorithm() {
+  [MenuItem("Python/Run Genetic Algorithm")]
+  public static void GeneticAlgorithmMenu() {
     PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
   }
 
-  private void Awake() {
+  public void StartGeneticAlgorithm() {
+    PythonRunner.RunFile($"{Application.dataPath}/Scripts/genetic_algorithm.py", "__main__");
     levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
+    levelManager.UpdateHUD();
+  }
 
+  public void SetProperties(int generations, int population, float mutationRate, int moves, int selection, int moveIncrease, int genPerMoveIncrease) {
+    this.generationMax = generations;
+    this.populationSize = population;
+    this.mutationRate = mutationRate;
+    this.moveCount = moves;
+    this.selectionCount = selection;
+    this.moveIncreaseAmount = moveIncrease;
+    this.generationPerMoveIncrease = genPerMoveIncrease;
+  }
+
+  private void Awake() {
     MOVESLIST = (Move[]) Enum.GetValues(typeof(Move));
-    UpdateHUD();
   }
 
   private void Update() {
@@ -66,15 +71,9 @@ public class GeneticAlgorithm : MonoBehaviour
         isRunning = false;
         PythonRunner.RunFile($"{Application.dataPath}/Scripts/evaluate.py", "__main__");
         levelManager.Reset();
-        UpdateHUD();
+        levelManager.UpdateHUD();
       }
     }
   }
 
-  private void UpdateHUD() {
-    currentGenerationHUD.text = $"GENS: {currentGeneration}";
-    moveCountHUD.text = $"MOVES: {moveCount}";
-    populationHUD.text = $"POPULATION: {populationSize}";
-    fitnessHUD.text = $"BEST FITNESS: {String.Format("{0:0.000}", bestFitness)}";
-  }
 }

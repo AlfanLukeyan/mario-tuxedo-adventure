@@ -14,7 +14,7 @@ public class EntityMovement : MonoBehaviour
 
     private void Awake()
     {
-        properties = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
+        properties = GameManager.Instance.geneticAlgorithm;
         rigidbody = GetComponent<Rigidbody2D>();
     }
 

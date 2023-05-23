@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
       player = gameObject;
       capsuleCollider = GetComponent<CapsuleCollider2D>();
       deathAnimation = GetComponent<DeathAnimation>();
-      properties = GameObject.Find("Genetic Algorithm").GetComponent<GeneticAlgorithm>();
+      properties = GameManager.Instance.geneticAlgorithm;
 
       moves = new List<Move>(properties.moveSaved);
       for (int i = properties.moveSavedCount; i < properties.moveCount; i++) {
