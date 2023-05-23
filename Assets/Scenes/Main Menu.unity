@@ -3890,7 +3890,7 @@ GameObject:
   - component: {fileID: 526177182}
   - component: {fileID: 526177181}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Menus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12064,6 +12064,7 @@ MonoBehaviour:
   bestFitness: 0
   finishedCount: 0
   isRunning: 0
+  isDone: 0
   moveSavedCount: 0
   moveSaved: 
   players: []

@@ -44,5 +44,18 @@ public class Player : MonoBehaviour
       deathAnimation.enabled = true;
     }
   }
+
+  public void RunMoves() {
+    StartCoroutine(ProcessMoves());
+  }
+
+  private IEnumerator ProcessMoves() {
+    int moveCounter = 0;
+    while (moveCounter < moves.Count) {
+      playerMovement.ProcessMove(moves[moveCounter]);
+      moveCounter++;
+      yield return null;
+    }
+  }
 }
 

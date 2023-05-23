@@ -105,11 +105,15 @@ def genetic_algorithm():
   properties.players = players
 
 if __name__ == "__main__":
-  if properties.currentGeneration >= 10 and properties.currentGeneration % properties.generationPerMoveIncrease == 0:
-    increase_moves()
+  if properties.isDone:
+    players = fitness(properties.players)
+    properties.moveSaved = selection(players)[0]
   else:
-    genetic_algorithm()
-  
-  properties.currentGeneration += 1
-  properties.finishedCount = 0
-  properties.isRunning = True
+    if properties.currentGeneration >= 10 and properties.currentGeneration % properties.generationPerMoveIncrease == 0:
+      increase_moves()
+    else:
+      genetic_algorithm()
+    
+    properties.currentGeneration += 1
+    properties.finishedCount = 0
+    properties.isRunning = True

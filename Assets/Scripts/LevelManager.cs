@@ -29,7 +29,6 @@ public class LevelManager : MonoBehaviour
       }
 
       properties = GameManager.Instance.geneticAlgorithm;
-      UpdateHUD();
     }
 
     // Resetting enemy positions

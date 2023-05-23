@@ -28,7 +28,7 @@ public class FlagPole : MonoBehaviour
 
         player.gameObject.SetActive(false);
 
-        GameManager.Instance.LoadMenu();
+        GameManager.Instance.geneticAlgorithm.isDone = true;
     }
 
     private IEnumerator MoveTo(Transform subject, Vector3 position)

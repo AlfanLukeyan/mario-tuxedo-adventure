@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 
   public bool isGrounded { get; private set; }
   public bool isJumping { get; private set; }
-  public bool isRunning => Mathf.Abs(velocity.x) > 0.25f;
+  public bool isRunning => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f;
   public bool isSliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
   public bool isFalling => velocity.y < 0f || !pressedJump;
   public bool finishedMoving { get; private set; }

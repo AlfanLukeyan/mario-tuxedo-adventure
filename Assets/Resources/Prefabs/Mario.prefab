@@ -211,6 +211,7 @@ MonoBehaviour:
   maxJumpHeight: 5
   maxJumpTime: 1
   player: {fileID: 867251733619556411}
+  properties: {fileID: 0}
 --- !u!114 &867251733619556411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +225,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5435763446875200625}
-  moves: 
-  collisionCount: 0
-  fitness: 0
   playerMovement: {fileID: 5975416828298120558}
   player: {fileID: 0}
+  properties: {fileID: 0}
+  moves: 
+  fitness: 0
+  collisionCount: 0
 --- !u!114 &6164263448855667819
 MonoBehaviour:
   m_ObjectHideFlags: 0
