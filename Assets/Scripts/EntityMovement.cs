@@ -22,7 +22,7 @@ public class EntityMovement : MonoBehaviour
     // Movement handling
     private void FixedUpdate()
     {
-        if (!properties.isRunning) return;
+        if (!properties.isRunning && !GameManager.Instance.runReplay) return;
         velocity.x = direction.x * speed;
         velocity.y += Physics2D.gravity.y * Time.fixedDeltaTime;
 

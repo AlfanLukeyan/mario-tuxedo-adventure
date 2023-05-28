@@ -349,11 +349,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3508792133164962280, guid: 32d3888dea6ad4b46abe1e4990021f92, type: 3}
   m_PrefabInstance: {fileID: 122917114}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &131459774 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6952045369575002251, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
-  m_PrefabInstance: {fileID: 1330027862}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &143788886 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1471909465908762723, guid: 3bc6a3a78a339a943bb91303889986b2, type: 3}
@@ -1296,27 +1291,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9207102813471885367, guid: 888866bd01d27426694b1ad09407449c, type: 3}
   m_PrefabInstance: {fileID: 680571937}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &725892982 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1309832796600717391, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
-  m_PrefabInstance: {fileID: 1330027862}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &725892983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725892982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84d98f50eaab64110b7eabbf29082058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flag: {fileID: 131459774}
-  poleBottom: {fileID: 1330027863}
-  castle: {fileID: 800017155}
-  speed: 6
 --- !u!1 &735092195
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,6 +2617,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlagPole
       objectReference: {fileID: 0}
+    - target: {fileID: 4502173752762880023, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
+      propertyPath: castle
+      value: 
+      objectReference: {fileID: 800017155}
     - target: {fileID: 6223390416115982293, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2689,11 +2667,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
---- !u!4 &1330027863 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1315992518204873036, guid: 12f994c215450d949a1aae248ea6352f, type: 3}
-  m_PrefabInstance: {fileID: 1330027862}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1343788057
 PrefabInstance:
   m_ObjectHideFlags: 0

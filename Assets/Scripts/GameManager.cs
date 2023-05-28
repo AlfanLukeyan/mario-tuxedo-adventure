@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
   public int stage { get; private set; }
 
   public GeneticAlgorithm geneticAlgorithm;
+  public bool runReplay = false;
 
   private void Awake()
   {
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour {
     Player player = Instantiate(playerPrefab, new Vector3(2, 2, 0), new Quaternion(0, 0, 0, 0), playerContainer).GetComponent<Player>();
     player.RunMoves();
     GameObject.FindWithTag("MainCamera").GetComponent<SideScrolling>().followPlayer();
+    runReplay = true;
   }
 
   public void LoadMenu(string menuName) {

@@ -60,11 +60,11 @@ public class PlayerMovement : MonoBehaviour {
     
     HorizontalMovement();
 
-    ApplyGravity();
-
     if (isGrounded) {
       GroundedMovement();
     }
+
+    ApplyGravity();
   }
 
   // Mario's horizontal movement (x axis)

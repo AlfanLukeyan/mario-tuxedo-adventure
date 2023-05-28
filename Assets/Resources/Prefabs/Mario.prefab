@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539f8ae1b6ac01847a3373bc5438fd1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputAxis: 0
   moveSpeed: 8
   maxJumpHeight: 5
   maxJumpTime: 1
@@ -231,6 +232,7 @@ MonoBehaviour:
   moves: 
   fitness: 0
   collisionCount: 0
+  win: 0
 --- !u!114 &6164263448855667819
 MonoBehaviour:
   m_ObjectHideFlags: 0
