@@ -57,37 +57,50 @@ public class GeneticAlgorithm : MonoBehaviour
     this.moveIncreaseAmount = moveIncrease;
     this.generationPerMoveIncrease = genPerMoveIncrease;
     
+    currentGeneration = 1;
+    bestFitness = 0f;
+    finishedCount = 0;
+    moveSavedCount = 0;
+    moveSaved = new List<Move>();
+    moveCounter = 0;
+    isDone = false;
+    
     levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
     levelManager.UpdateHUD();
   }
 
   // Handles player move processing and evaluation
   private void Update() {
-    
     if (isRunning) {
+      if (currentGeneration > generationMax) {
+        isRunning = false;
+        isDone = true;
+        GameManager.Instance.LoadMenu("FinishedMenu");
+      }
+
       if (moveCounter < moveCount) {
         foreach (Player player in players) {
           player.playerMovement.ProcessMove(player.moves[moveCounter]);
         }
         moveCounter++;
       } else {
-        foreach (Player player in players) {
-          player.playerMovement.StopMove();
-        }
-        
+        StopPlayerMovement();
       }
-      if (finishedCount == populationSize || isDone == true) {
+      if (finishedCount == populationSize && !isDone) {
         moveCounter = 0;
         isRunning = false;
         PythonRunner.RunFile($"{Application.dataPath}/Scripts/evaluate.py", "__main__");
         levelManager.Reset();
         levelManager.UpdateHUD();
       }
-
-      if (isDone == true) {
-        GameManager.Instance.LoadMenu();
-      }
     }
+  }
+
+  public void StopPlayerMovement() {
+    foreach (Player player in players) {
+      player.playerMovement.StopMove();
+    }
+    
   }
 
 }

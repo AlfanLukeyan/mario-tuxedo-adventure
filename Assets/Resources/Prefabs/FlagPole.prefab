@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d98f50eaab64110b7eabbf29082058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: {fileID: 2121863369043743881}
+  flag: {fileID: 6952045369575002251}
   poleBottom: {fileID: 1315992518204873036}
   castle: {fileID: 0}
   speed: 6

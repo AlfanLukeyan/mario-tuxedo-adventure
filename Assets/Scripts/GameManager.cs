@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
   public int stage { get; private set; }
 
   public GeneticAlgorithm geneticAlgorithm;
+
   private void Awake()
   {
     if (Instance != null) {
@@ -55,19 +56,36 @@ public class GameManager : MonoBehaviour {
     geneticAlgorithm.StartGeneticAlgorithm();
   }
 
-  public void LoadMenu() {
-    StartCoroutine(AsyncLoadMenu());
+  public void LoadLevelFinished() {
+    StartCoroutine(AsyncLoadLevelFinished());
   }
 
-  private IEnumerator AsyncLoadMenu() {
+  private IEnumerator AsyncLoadLevelFinished() {
+    AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync($"{world}-{stage}", LoadSceneMode.Single);
+    while (!asyncLoadLevel.isDone) {
+      Debug.Log($"Loading {world}-{stage}");
+      yield return null;
+    }
+    GameObject.Find("HUD").SetActive(false);
+    GameObject playerPrefab = Resources.Load<GameObject>("Prefabs/Mario");
+    Transform playerContainer = GameObject.Find("Players").transform;
+    Player player = Instantiate(playerPrefab, new Vector3(2, 2, 0), new Quaternion(0, 0, 0, 0), playerContainer).GetComponent<Player>();
+    player.RunMoves();
+    GameObject.FindWithTag("MainCamera").GetComponent<SideScrolling>().followPlayer();
+  }
+
+  public void LoadMenu(string menuName) {
+    StartCoroutine(AsyncLoadMenu(menuName));
+  }
+
+  private IEnumerator AsyncLoadMenu(string menuName) {
     AsyncOperation asyncLoadMenu = SceneManager.LoadSceneAsync("Main Menu", LoadSceneMode.Single);
     while (!asyncLoadMenu.isDone) {
       Debug.Log("Loading Menu");
       yield return null;
     }
 
-    yield return new WaitForSeconds(2f);
-
-    
+    MenuManager menuManager = FindObjectOfType<MenuManager>();
+    menuManager.ShowMenu(menuName);
   }
 }

@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
   private new Collider2D collider;
 
   private Vector2 velocity;
-  private float inputAxis;
+  public float inputAxis;
 
   public float moveSpeed = 8f;
   public float maxJumpHeight = 5f;

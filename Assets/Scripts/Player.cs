@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
   public float fitness;
   public int collisionCount;
   public bool isDead => deathAnimation.enabled || !player.activeSelf;
+  public bool win;
 
   // Initialize player
   private void Awake() {

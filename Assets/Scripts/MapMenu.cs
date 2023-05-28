@@ -10,6 +10,6 @@ public class MapMenu : MonoBehaviour
   // Add on click to buttons
   private void Start() {
     button[0].onClick.AddListener(delegate { GameManager.Instance.SetLevel(1, 1); });
-    button[1].onClick.AddListener(delegate { GameManager.Instance.SetLevel(1, 2); });
+    button[1].onClick.AddListener(delegate { GameManager.Instance.SetLevel(1, 3); });
   }
 }

@@ -29,12 +29,12 @@ public class EntityMovement : MonoBehaviour
         rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
 
         // Change direction when near a wall
-        if (rigidbody.Raycast(direction, 0.375f)) {
+        if (rigidbody.EnemyRaycast(direction, 0.375f)) {
             direction = -direction;
         }
 
         // Set y velocity to 0 when on ground
-        if (rigidbody.Raycast(Vector2.down, 0.375f)) {
+        if (rigidbody.EnemyRaycast(Vector2.down, 0.375f)) {
             velocity.y = Mathf.Max(velocity.y, 0f);
         }
 

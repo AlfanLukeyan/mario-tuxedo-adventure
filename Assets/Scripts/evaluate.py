@@ -25,6 +25,8 @@ def fitness(players):
     collision_penalty = player.collisionCount
     death_penalty = 9999 if player.isDead else 0
     player.fitness = 1 / (distance + death_penalty + collision_penalty) * 1000
+    if player.win:
+      player.fitness *= 1000
     if player.fitness > properties.bestFitness:
       properties.bestFitness = player.fitness
   return players
@@ -36,6 +38,9 @@ def selection(players):
   temp = sorted(temp, key=lambda player: player[1], reverse=True)
 
   players = [player for player, _ in temp]
+
+  if properties.isDone:
+    return players
 
   for index, player in enumerate(players):
     if (index >= properties.selectionCount):
@@ -105,15 +110,16 @@ def genetic_algorithm():
   properties.players = players
 
 if __name__ == "__main__":
-  if properties.isDone:
+  properties.currentGeneration += 1
+  if properties.isDone or properties.currentGeneration > properties.generationMax:
     players = fitness(properties.players)
-    properties.moveSaved = selection(players)[0]
+    properties.moveSaved = selection(players)[0].moves
+    properties.moveSavedCount = properties.moveCount;
   else:
-    if properties.currentGeneration >= 10 and properties.currentGeneration % properties.generationPerMoveIncrease == 0:
+    if properties.currentGeneration >= 10 and (properties.currentGeneration - 10) % properties.generationPerMoveIncrease == 0:
       increase_moves()
     else:
       genetic_algorithm()
     
-    properties.currentGeneration += 1
     properties.finishedCount = 0
     properties.isRunning = True
